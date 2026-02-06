@@ -11,16 +11,38 @@ connexion = mysql.connector.connect(
 curseur = connexion.cursor()
 
 
+#fonction pour ajouter un apprenant
 def ajouter_apprenant():
-    nom = input("Nom : ")
-    prenom = input("Prénom : ")
-    promo = input("Promo : ")
+
+    while True:
+        nom = input("Entrer votre nom : ").strip()
+        if nom.replace(" ","").isalpha():
+            break
+        else:
+            print("Incorrect ! Entrez votre nom (seulement des lettres).")
+
+    while True:
+        prenom = input("Entrer votre prénom : ").strip()
+        if prenom.replace(" ","").isalpha():
+            break
+        else:
+            print("Incorrect ! Entrez votre prénom (seulement des lettres).")
+
+    while True:
+        promo = input("Entrer votre promo :").strip()
+        if promo.startswith("P") and promo[1:].isdigit():
+            break
+        else:
+            print("Incorrect ! La promo doit commencer par 'P' suivi uniquement de chiffres.")
+
+
     curseur.execute(
         "INSERT INTO apprenants (nom, prenom, promo) VALUES (%s, %s, %s)",
         (nom, prenom, promo)
     )
+
     connexion.commit()
-    print(f"Apprenant {nom} {prenom} ajouté avec succès.")
+    print(f"Apprenant {prenom} {nom}  ajouté avec succès.")
 
 
 def enregistrer_presence():
@@ -85,3 +107,5 @@ def menu():
             break
         else:
             print("Choix invalide, réessayez.")
+
+menu()
