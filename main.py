@@ -60,15 +60,15 @@ def enregistrer_presence():
         print(f"{apprenant[0]} - {apprenant[1]} {apprenant[2]} : {apprenant[3]}")
 
         while True:
-            rep = input("Présent ? (o/n) : ").lower()
-            if rep == "o":
+            pointage = input("Présent ? (o/n) : ").lower()
+            if pointage == "o":
                 curseur.execute(
                     "UPDATE apprenants SET presence='Présent' WHERE id=%s",
                     (apprenant[0],)
                 )
                 break
 
-            elif rep == "n":
+            elif pointage == "n":
                 break
             else:
                 print("Saisie incorrecte veuillez reessayer!! ")
