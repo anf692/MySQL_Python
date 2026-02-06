@@ -40,22 +40,33 @@ def ajouter_apprenant():
         "INSERT INTO apprenants (nom, prenom, promo) VALUES (%s, %s, %s)",
         (nom, prenom, promo)
     )
-
+    
     connexion.commit()
     print(f"Apprenant {prenom} {nom}  ajouté avec succès.")
 
 
+#fonction pour enregistrer une presence
 def enregistrer_presence():
     curseur.execute("SELECT id, nom, prenom, presence FROM apprenants")
     apprenants = curseur.fetchall()
+
     for apprenant in apprenants:
         print(f"{apprenant[0]} - {apprenant[1]} {apprenant[2]} : {apprenant[3]}")
-        rep = input("Présent ? (o/n) : ").lower()
-        if rep == "o":
-            curseur.execute(
-                "UPDATE apprenants SET presence='Présent' WHERE id=%s",
-                (apprenant[0],)
-            )
+
+        while True:
+            rep = input("Présent ? (o/n) : ").lower()
+            if rep == "o":
+                curseur.execute(
+                    "UPDATE apprenants SET presence='Présent' WHERE id=%s",
+                    (apprenant[0],)
+                )
+                break
+
+            elif rep == "n":
+                break
+            else:
+                print("Saisie incorrecte veuillez reessayer!! ")
+
     connexion.commit()
     print("Présences mises à jour avec succès.")
 
