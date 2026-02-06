@@ -47,3 +47,17 @@ def afficher_present():
             print(f"{p[0]} {p[1]} - {p[2]}")
     else:
         print("Aucun apprenant n'est présent.")
+
+
+def rechercher_apprenant():
+    nom = input("Nom de l'apprenant à rechercher : ")
+    curseur.execute(
+        "SELECT * FROM apprenants WHERE nom LIKE %s",
+        (f"%{nom}%",)
+    )
+    result = curseur.fetchall()
+    if result:
+        for r in result:
+            print(f"ID: {r[0]}, Nom: {r[1]}, Prénom: {r[2]}, Promo: {r[3]}, Présence: {r[4]}")
+    else:
+        print("Aucun apprenant trouvé.")
