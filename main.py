@@ -36,3 +36,14 @@ def enregistrer_presence():
             )
     connexion.commit()
     print("Présences mises à jour avec succès.")
+
+
+def afficher_present():
+    curseur.execute("SELECT nom, prenom, promo FROM apprenants WHERE presence='Présent'")
+    presents = curseur.fetchall()
+    if presents:
+        print("Apprenants présents :")
+        for p in presents:
+            print(f"{p[0]} {p[1]} - {p[2]}")
+    else:
+        print("Aucun apprenant n'est présent.")
