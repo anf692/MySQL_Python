@@ -35,7 +35,7 @@ def ajouter_apprenant():
             print("Incorrect ! Entrez votre prénom (seulement des lettres).")
 
     while True:
-        promo = input("Entrer votre promo :").strip()
+        promo = input("Entrer votre promo :").strip().upper()
         if promo.startswith("P") and promo[1:].isdigit():
             break
         else:
