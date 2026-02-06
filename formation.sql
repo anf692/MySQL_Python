@@ -8,3 +8,9 @@ CREATE TABLE apprenants (
     promo VARCHAR(10) NOT NULL,
     presence ENUM('Absent','Présent') DEFAULT 'Absent'
 );
+
+ALTER TABLE apprenants AUTO_INCREMENT = 1;
+
+DELETE FROM apprenants WHERE id = 3;
+
+select * from apprenants;

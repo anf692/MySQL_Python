@@ -108,6 +108,48 @@ def rechercher_apprenant():
     else:
         print("Aucun apprenant trouvé.")
 
+#fonction pour supprimer un apprenants
+def supprimer_apprenants():
+    curseur.execute("SELECT id, nom, prenom FROM apprenants")
+    apprenants = curseur.fetchall()
+
+    if not apprenants:
+        print("Aucun apprenant à supprimer.")
+        return
+
+    print("Liste des apprenants :")
+    for a in apprenants:
+        print(f"{a[0]} - {a[1]} {a[2]}")
+
+    while True:
+        id_app = input("Entrer l'identifiant de l'apprenant à supprimer : ").strip()
+
+        if not id_app.isdigit():
+            print("Erreur : l'identifiant doit être un nombre.")
+            continue
+
+        # Vérifier l'existence
+        curseur.execute(
+            "SELECT id FROM apprenants WHERE id = %s",
+            (id_app,)
+        )
+        apprenant = curseur.fetchone()
+
+        if apprenant is None:
+            print("Aucun apprenant avec cet ID. Réessayez.")
+            continue
+
+        # Supprimer
+        curseur.execute(
+            "DELETE FROM apprenants WHERE id = %s",
+            (id_app,)
+        )
+
+        connexion.commit()
+        print(f"Utilisateur avec ID {id_app} supprimé avec succès.")
+        break
+
+
 #fonction pour fermer la base de donnnees
 def fermeture():
     if connexion.is_connected():
@@ -123,7 +165,8 @@ def menu():
         print("2. Enregistrer présence")
         print("3. Afficher présents")
         print("4. Rechercher apprenant")
-        print("5. Quitter")
+        print("5. Supprimer un apprenant")
+        print("6. Quitter")
         choix = input("Votre choix : ")
         if choix == "1":
             ajouter_apprenant()
@@ -134,6 +177,8 @@ def menu():
         elif choix == "4":
             rechercher_apprenant()
         elif choix == "5":
+            supprimer_apprenants()
+        elif choix == "6":
             fermeture()
             print("Au revoir 👋")
             break
