@@ -61,3 +61,27 @@ def rechercher_apprenant():
             print(f"ID: {r[0]}, Nom: {r[1]}, Prénom: {r[2]}, Promo: {r[3]}, Présence: {r[4]}")
     else:
         print("Aucun apprenant trouvé.")
+
+    
+def menu():
+    while True:
+        print("\n--- Menu ---")
+        print("1. Ajouter un apprenant")
+        print("2. Enregistrer présence")
+        print("3. Afficher présents")
+        print("4. Rechercher apprenant")
+        print("5. Quitter")
+        choix = input("Votre choix : ")
+        if choix == "1":
+            ajouter_apprenant()
+        elif choix == "2":
+            enregistrer_presence()
+        elif choix == "3":
+            afficher_present()
+        elif choix == "4":
+            rechercher_apprenant()
+        elif choix == "5":
+            print("Au revoir 👋")
+            break
+        else:
+            print("Choix invalide, réessayez.")
