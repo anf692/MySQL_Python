@@ -4,9 +4,15 @@ import mysql.connector
 connexion = mysql.connector.connect(
     host="localhost",
     user="root", 
-    password="passe",
+    password="tresbienmerci",
     database="centre_formation"
 )
+
+# Vérifiez si la connexion est réussie
+if connexion.is_connected():    
+    print("Connecté à la base de données MySQL")
+else:    
+    print("Échec de la connexion à la base de données MySQL")
 
 curseur = connexion.cursor()
 
@@ -70,7 +76,7 @@ def enregistrer_presence():
     connexion.commit()
     print("Présences mises à jour avec succès.")
 
-
+#fonction pour afficher les presents
 def afficher_present():
     curseur.execute("SELECT nom, prenom, promo FROM apprenants WHERE presence='Présent'")
     presents = curseur.fetchall()
@@ -82,8 +88,15 @@ def afficher_present():
         print("Aucun apprenant n'est présent.")
 
 
+#fonction pour rechercher un apprenant
 def rechercher_apprenant():
-    nom = input("Nom de l'apprenant à rechercher : ")
+    while True:
+        nom = input("Entrer le nom de l'apprenant a rechercher: ").strip()
+        if nom.replace(" ","").isalpha():
+            break
+        else:
+            print("Incorrect ! entrer (seulement des lettres).")
+
     curseur.execute(
         "SELECT * FROM apprenants WHERE nom LIKE %s",
         (f"%{nom}%",)
@@ -95,7 +108,14 @@ def rechercher_apprenant():
     else:
         print("Aucun apprenant trouvé.")
 
+#fonction pour fermer la base de donnnees
+def fermeture():
+    if connexion.is_connected():
+        connexion.close()
+        print("Connexion à la base de données MySQL fermée.")
+
     
+#fonction principal
 def menu():
     while True:
         print("\n--- Menu ---")
@@ -114,6 +134,7 @@ def menu():
         elif choix == "4":
             rechercher_apprenant()
         elif choix == "5":
+            fermeture()
             print("Au revoir 👋")
             break
         else:
